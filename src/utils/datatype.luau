@@ -42,6 +42,42 @@ function exports.index(target: any)
 	return `.{result}`
 end
 
+function exports.toIdentifier(target: string)
+	local sanitized = string.gsub(target, "(%l)(%u)", "%1 %2")
+	sanitized = string.gsub(sanitized, "[^%a%d]", " ")
+
+	local words = {}
+
+	for word in string.gmatch(sanitized, "%S+") do
+		table.insert(words, string.lower(word))
+	end
+
+	if #words == 0 then
+		return string.format("_%x", math.random(0, 0xFFFF))
+	end
+
+	local result = words[1]
+	for i = 2, #words do
+		result ..= string.upper(string.sub(words[i], 1, 1)) .. string.sub(words[i], 2)
+	end
+
+	if string.match(result, "^%d") then
+		result = "_" .. result
+	end
+
+	return result
+end
+
+function exports.numberSnap(num: number, threshold: number?)
+	local nearest = math.floor(num + 0.5)
+
+	if math.abs(num - nearest) < (threshold or 0.0001) then
+		return nearest
+	end
+
+	return num
+end
+
 function exports.isArray(array: { [any]: any })
 	local len = #array
 
@@ -59,8 +95,8 @@ function exports.isArray(array: { [any]: any })
 end
 
 function exports.tab(str: string, tabLength: number)
-	if tabLength < 1 then
-		error("invalid tab length")
+	if tabLength <= 0 then
+		return str
 	end
 
 	local tab = string.rep("\t", tabLength)
@@ -108,7 +144,7 @@ exports.types = {
 
 		-- normal number
 		if exports.config.roundNumbers then
-			return tostring(round(target, exports.config.numberPrecision))
+			return tostring(exports.numberSnap(round(target, exports.config.numberPrecision)))
 		end
 
 		return tostring(target)
@@ -473,10 +509,10 @@ exports.types = {
 		if nameFamilies[target.Family] then
 			local args = {}
 
-			table.insert(args, convert(nameFamilies[target.Family]))
+			table.insert(args, convert(nameFamilies[target.Family].Name))
 			addRemainingArgs(args)
 
-			return `Font.fromEnum({table.concat(args, ", ")})`
+			return `Font.fromName({table.concat(args, ", ")})`
 		end
 
 		--| By asset
@@ -547,6 +583,10 @@ exports.types = {
 		if #keypoints == 1 then
 			return `NumberSequence.new({convert(keypoints[1].Value)})`
 		elseif #keypoints == 2 then
+			if keypoints[1].Value == keypoints[2].Value then
+				return `NumberSequence.new({convert(keypoints[1].Value)})`
+			end
+
 			return `NumberSequence.new({convert(keypoints[1].Value)}, {convert(keypoints[2].Value)})`
 		end
 

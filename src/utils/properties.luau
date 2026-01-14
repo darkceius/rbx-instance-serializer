@@ -12,12 +12,21 @@ exports.excludedPropertiesFor = {
 		Orientation = true,
 	},
 
-	Color = {
-		BrickColor = true,
-	},
+	Parent = { Parent = true },
+	Image = { ImageContent = true },
+	FontFace = { Font = true },
 
-	Parent = {
-		Parent = true,
+	Color = { BrickColor = true },
+	BackgroundColor3 = { BackgroundColor = true },
+	TextColor3 = { TextColor = true },
+	BackgroundTransparency = { Transparency = true },
+	TextTransparency = { Transparency = true },
+	TextStrokeTransparency = { Transparency = true },
+
+	Texture = {
+		ColorMapContent = true,
+		TextureContent = true,
+		ColorMap = true,
 	},
 }
 
