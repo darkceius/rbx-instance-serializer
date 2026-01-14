@@ -1,0 +1,3 @@
+syntax = "Luau"
+quote_style = "AutoPreferDouble"
+line_endings = "Windows"
