@@ -1,7 +1,12 @@
--- test script
+local RunService = game:GetService("RunService")
 local serializer = require("@self/serializer")
 
-local job = serializer.new()
-job:parse(workspace.KeycardVM, false)
+if RunService:IsStudio() then
+	if RunService:GetAttribute("TEST_SERIALIZER") then
+		require("@self/test")
+	end
 
-warn(job:start())
+	require("@self/plugin")(plugin)
+end
+
+return serializer

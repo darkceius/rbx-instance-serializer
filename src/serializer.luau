@@ -4,13 +4,13 @@ local properties = require("./utils/properties")
 local serializer = {}
 serializer.__index = serializer
 
-function serializer.new()
+function serializer.new(builder: any?)
 	local self = {}
 	self.references = {}
 	self.roots = {}
 	self.variables = {}
 
-	self.builder = require("./builders/vanilla").new()
+	self.builder = (builder or require("./builders/vanilla")).new()
 	self.builder.roots = self.roots
 
 	setmetatable(self, serializer)
@@ -35,7 +35,7 @@ function serializer.assignVar(self: self, name: string)
 	return name
 end
 
-function serializer.parse(self: self, instance: Instance, isChild: boolean?, parent: any?)
+function serializer.add(self: self, instance: Instance, isChild: boolean?, parent: any?)
 	assert(typeof(parent) == "table" or typeof(parent) == "nil", "parent must be a: data?")
 	assert(typeof(isChild) == "boolean" or typeof(isChild) == "nil", "isChild must be a: boolean?")
 
@@ -96,7 +96,7 @@ function serializer.parse(self: self, instance: Instance, isChild: boolean?, par
 	self.references[instance] = data
 
 	for _, inst in next, instance:GetChildren() do
-		table.insert(data.children, self:parse(inst, true, data))
+		table.insert(data.children, self:add(inst, true, data))
 	end
 
 	if not isChild then
@@ -106,7 +106,7 @@ function serializer.parse(self: self, instance: Instance, isChild: boolean?, par
 	return data
 end
 
-function serializer.start(self: self)
+function serializer.serialize(self: self)
 	self.builder:init()
 	return self.builder:construct()
 end
