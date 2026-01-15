@@ -2,11 +2,11 @@
 
 turns instances into code
 
-# todo
+## todo
 
 - [ ] Add React builder
 - [ ] `datatype` plugin settings
 
-# license
+## license
 
 [view here](./LICENSE)
