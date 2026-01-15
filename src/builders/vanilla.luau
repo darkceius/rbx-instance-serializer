@@ -4,7 +4,7 @@
 -- * about:
 -- uses roblox's Instance.new() function to create instances;
 
-local datatype = require("../utils/datatype")
+local datatype = require(script.Parent.Parent.utils.datatype)
 local builder = {}
 builder.__index = builder
 
@@ -16,7 +16,8 @@ function builder.new()
 	self.lines = {}
 
 	self.configs = {
-		exports = true,
+		useExports = true,
+		parentRoots = false,
 		wrapChildren = true, -- recommended to avoid local variable register limit
 	}
 
@@ -74,10 +75,8 @@ function builder.instance(
 		table.insert(self.headers, variableName)
 	end
 
-	table.insert(
-		lines,
-		`{not isReferenced and "local " or ""}{variableName} = Instance.new({datatype.toString(data.className)})`
-	)
+	local instancer = `Instance.new({datatype.toString(data.className)})`
+	table.insert(lines, `{not isReferenced and "local " or ""}{variableName} = {instancer}`)
 
 	--| Properties
 	for _, property: {
@@ -163,13 +162,25 @@ function builder.construct(self: self)
 		table.insert(lines, table.concat(self.footers, "\n"))
 	end
 
-	if #self.roots > 0 and self.configs.exports then
-		local roots = {}
-		for _, v in next, self.roots do
-			table.insert(roots, `{v.varName} = {v.varName},`)
+	if #self.roots > 0 then
+		if self.configs.parentRoots then
+			for _, root in next, self.roots do
+				if not root._rawParent then
+					continue
+				end
+
+				table.insert(lines, `{root.varName}{datatype.index("Parent")} = {datatype.toString(root._rawParent)}`)
+			end
 		end
 
-		table.insert(lines, `return \{\n{datatype.tab(table.concat(roots, ", "), 1)}\n\}`)
+		if self.configs.useExports then
+			local roots = {}
+			for _, v in next, self.roots do
+				table.insert(roots, `{v.varName} = {v.varName},`)
+			end
+
+			table.insert(lines, `return \{\n{datatype.tab(table.concat(roots, ", "), 1)}\n\}`)
+		end
 	end
 
 	return table.concat(lines, "\n\n")

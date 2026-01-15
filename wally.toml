@@ -1,0 +1,12 @@
+[package]
+name = "darkceius/instance-serializer"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+react = "jsdotlua/react@17.2.1"
+reactRoblox = "jsdotlua/react-roblox@17.2.1"
+charm = "littensy/charm@0.10.0"
+comps = "sircfenner/studiocomponents@1.2.0"
+tableUtil = "sleitnick/table-util@1.2.1"

@@ -9,9 +9,9 @@
 ]]
 
 local EncodingService = game:GetService("EncodingService")
-local capabilities = require("./capabilities")
-local keywords = require("./keywords")
-local round = require("./round")
+local capabilities = require(script.Parent.capabilities)
+local keywords = require(script.Parent.keywords)
+local round = require(script.Parent.round)
 
 local exports = {}
 exports.config = {
@@ -533,15 +533,18 @@ exports.types = {
 		local current = target :: Instance?
 
 		while true do
-			if not current or current == game then
+			if not current then
 				break
 			end
 
 			if current == workspace then
 				table.insert(parents, "workspace")
 				break
-			elseif current.Parent == game then
+			elseif current.Parent == game and current:IsA("ServiceProvider") then
 				table.insert(parents, `game:GetService({convert(current.ClassName)})`)
+				break
+			elseif current == game then
+				table.insert(parents, "game")
 				break
 			end
 
@@ -847,7 +850,14 @@ exports.types = {
 		return `SecurityCapabilities.new({table.concat(args, ", ")})`
 	end,
 
-	SharedTable = blankHandler, -- just copy table but make it newindex instead and (function() end)() like params
+	SharedTable = function(target: SharedTable, convert)
+		local tb = {}
+		for k, v in target do
+			tb[k] = v
+		end
+
+		return `SharedTable.new({convert(tb)})`
+	end,
 
 	TweenInfo = function(target: TweenInfo, convert)
 		local base = TweenInfo.new()

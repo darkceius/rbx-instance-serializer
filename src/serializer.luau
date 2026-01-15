@@ -1,5 +1,8 @@
-local datatype = require("./utils/datatype")
-local properties = require("./utils/properties")
+-- serializer.luau
+-- @darkceius
+
+local datatype = require(script.Parent.utils.datatype)
+local properties = require(script.Parent.utils.properties)
 
 local serializer = {}
 serializer.__index = serializer
@@ -49,6 +52,7 @@ function serializer.add(self: self, instance: Instance, isChild: boolean?, paren
 
 	data.isReferenced = false
 
+	data._rawParent = typeof(parent) == "Instance" and parent or nil
 	data._modifiedProperties = properties.getChangedProperties(instance)
 	data.properties = {}
 

@@ -2,7 +2,7 @@
 -- @darkceius
 
 local ReflectionService = game:GetService("ReflectionService")
-local capabilities = require("./capabilities")
+local capabilities = require(script.Parent.capabilities)
 local exports = {}
 
 exports.excludedPropertiesFor = {

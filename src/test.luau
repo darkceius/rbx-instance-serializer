@@ -1,8 +1,3 @@
-local serializer = require("@self/serializer")
-
-local job = serializer.new()
-
-job:add(workspace.Baseplate)
-warn(job:serialize())
+-- add testEZ tests for every datatype.toString() handler
 
 return nil

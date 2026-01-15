@@ -5,7 +5,15 @@
 
 		"ServerScriptService": {
 			"instanceSerializer": {
-				"$path": "src"
+				"$className": "Folder",
+
+				"src": {
+					"$path": "src"
+				},
+
+				"packages": {
+					"$path": "Packages"
+				}
 			}
 		},
 
