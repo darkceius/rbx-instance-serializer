@@ -4,8 +4,10 @@ turns instances into code
 
 ## todo
 
-- [ ] Add React builder
-- [ ] `datatype` plugin settings
+- [ ] add React builder
+- [ ] `datatype.luau` plugin settings
+- [ ] `datatype.luau` tests
+- [ ] tests via testEZ
 
 ## license
 
