@@ -2,12 +2,6 @@
 -- @darkceius
 --!optimize 2
 
---[[
-	TODO:
-	- tests
-	- define SharedTable
-]]
-
 local EncodingService = game:GetService("EncodingService")
 local capabilities = require(script.Parent.capabilities)
 local keywords = require(script.Parent.keywords)

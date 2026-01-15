@@ -11,8 +11,6 @@ local function useBuilders()
 			table.insert(items, {
 				Id = data.id,
 				Text = data.name,
-
-				-- TODO figure out why Icon causes errors
 			})
 		end
 
