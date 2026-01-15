@@ -18,7 +18,9 @@ function builder.new()
 	self.configs = {
 		useExports = true,
 		parentRoots = false,
-		wrapChildren = true, -- recommended to avoid local variable register limit
+
+		-- recommended to avoid local variable register limit
+		wrapChildren = true,
 	}
 
 	self.stats = {
@@ -59,11 +61,11 @@ function builder.instance(
 	local data = meta.data
 	local variableName = data.varName
 
+	--| Setup
 	local lines = {}
 
 	self.stats.instances += 1
 
-	--| Setup
 	table.sort(data.properties, function(a, b)
 		return a.valueType > b.valueType
 	end)
@@ -75,7 +77,13 @@ function builder.instance(
 		table.insert(self.headers, variableName)
 	end
 
-	local instancer = `Instance.new({datatype.toString(data.className)})`
+	local instancer
+	if data.instancer.method == "default" then
+		instancer = `Instance.new({datatype.toString(data.className)})`
+	elseif data.instancer.method == "set" then
+		instancer = data.instancer.value
+	end
+
 	table.insert(lines, `{not isReferenced and "local " or ""}{variableName} = {instancer}`)
 
 	--| Properties
@@ -179,7 +187,7 @@ function builder.construct(self: self)
 				table.insert(roots, `{v.varName} = {v.varName},`)
 			end
 
-			table.insert(lines, `return \{\n{datatype.tab(table.concat(roots, ", "), 1)}\n\}`)
+			table.insert(lines, `return \{\n{datatype.tab(table.concat(roots, "\n"), 1)}\n\}`)
 		end
 	end
 

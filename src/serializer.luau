@@ -2,6 +2,7 @@
 -- @darkceius
 
 local datatype = require(script.Parent.utils.datatype)
+local logger = require(script.Parent.utils.logger)
 local properties = require(script.Parent.utils.properties)
 
 local serializer = {}
@@ -55,6 +56,24 @@ function serializer.add(self: self, instance: Instance, isChild: boolean?, paren
 	data._rawParent = typeof(parent) == "Instance" and parent or nil
 	data._modifiedProperties = properties.getChangedProperties(instance)
 	data.properties = {}
+
+	data.instancer = {
+		method = "default",
+		value = nil :: string?,
+	}
+
+	if instance:IsA("MeshPart") then
+		local args = {}
+
+		table.insert(args, datatype.toString(instance.MeshId))
+		table.insert(args, datatype.toString(instance.CollisionFidelity))
+		table.insert(args, datatype.toString(instance.RenderFidelity))
+
+		data.instancer.method = "set"
+		data.instancer.value = `game:GetService("InsertService"):CreateMeshPartAsync({table.concat(args, ", ")})`
+	elseif instance:IsA("UnionOperation") then
+		logger.warn("UnionOperation aren't supported! Export them as obj and re-import them! (for your own good)")
+	end
 
 	-- index for roact layoutorder
 	if data.parent then

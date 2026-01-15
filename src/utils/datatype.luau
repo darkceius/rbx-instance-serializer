@@ -11,14 +11,14 @@
 local EncodingService = game:GetService("EncodingService")
 local capabilities = require(script.Parent.capabilities)
 local keywords = require(script.Parent.keywords)
-local round = require(script.Parent.round)
 
 local exports = {}
 exports.config = {
 	escapeNewline = false,
 
 	roundNumbers = true,
-	numberPrecision = nil,
+	snapPrecision = 0.0007,
+	numberPrecision = 10_000,
 
 	hideCyclicTables = false,
 	cyclicLabel = "*cylic*",
@@ -68,10 +68,14 @@ function exports.toIdentifier(target: string)
 	return result
 end
 
+function exports.numberRound(num: number, precision: number)
+	return math.floor(num * precision) / precision
+end
+
 function exports.numberSnap(num: number, threshold: number?)
 	local nearest = math.floor(num + 0.5)
 
-	if math.abs(num - nearest) < (threshold or 0.0001) then
+	if math.abs(num - nearest) <= (threshold or exports.config.snapPrecision) then
 		return nearest
 	end
 
@@ -144,7 +148,7 @@ exports.types = {
 
 		-- normal number
 		if exports.config.roundNumbers then
-			return tostring(exports.numberSnap(round(target, exports.config.numberPrecision)))
+			return tostring(exports.numberSnap(exports.numberRound(target, exports.config.numberPrecision)))
 		end
 
 		return tostring(target)

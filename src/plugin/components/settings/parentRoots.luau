@@ -10,7 +10,7 @@ return function(props: typedefs.props)
 		config = props.config,
 
 		name = "parentRoots",
-		default = true,
+		default = false,
 	})
 
 	return e(comps.Checkbox, {

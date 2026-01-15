@@ -23,6 +23,9 @@ exports.excludedPropertiesFor = {
 	TextTransparency = { Transparency = true },
 	TextStrokeTransparency = { Transparency = true },
 
+	TextureID = { TextureContent = true },
+	TextureId = { TextureContent = true },
+
 	Texture = {
 		ColorMapContent = true,
 		TextureContent = true,
