@@ -62,17 +62,9 @@ function builder.instance(
 	local data = meta.data
 	local isRoot = meta.isRoot
 	local addToExport = isRoot and self.configs.useExports
-	local isDefinedAsChild = not isRoot or addToExport
 
 	--| Setup
 	local lines = {}
-
-	if isRoot then
-		if isDefinedAsChild and self.rootDefined[data.rawName] then
-			return nil
-		end
-		self.rootDefined[data.rawName] = true
-	end
 
 	--| Instancing
 	local hasChildren = #data.children > 0
@@ -82,6 +74,15 @@ function builder.instance(
 	if (identifier ~= data.rawName or data.rawName == "exports") and meta.isRoot then
 		addToExport = true
 		-- forced because `export type ["identifier"] = ...` isn't supported
+	end
+
+	local isDefinedAsChild = not isRoot or addToExport
+
+	if isRoot then
+		if isDefinedAsChild and self.rootDefined[data.rawName] then
+			return nil
+		end
+		self.rootDefined[data.rawName] = true
 	end
 
 	if not isDefinedAsChild then
