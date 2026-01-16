@@ -10,6 +10,7 @@ local holder = require(script.Parent.holder)
 local builder = require(script.Parent.settings.builder)
 local escapeStringNewline = require(script.Parent.settings.escapeStringNewline)
 local parentRoots = require(script.Parent.settings.parentRoots)
+local roundNumbers = require(script.Parent.settings.roundNumbers)
 local useExports = require(script.Parent.settings.useExports)
 local useNameProperty = require(script.Parent.settings.useNameProperty)
 local useWorldProperties = require(script.Parent.settings.useWorldProperties)
@@ -107,6 +108,13 @@ local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
 
 		useNameProperty = e(
 			useNameProperty,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
+
+		roundNumbers = e(
+			roundNumbers,
 			tableUtil.Reconcile({
 				LayoutOrder = layoutOrder(),
 			}, compShared)
