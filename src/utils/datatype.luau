@@ -8,7 +8,7 @@ local keywords = require(script.Parent.keywords)
 
 local exports = {}
 exports.config = {
-	escapeNewline = false,
+	escapeStringNewline = false,
 
 	roundNumbers = true,
 	snapPrecision = 0.0007,
@@ -154,7 +154,7 @@ exports.types = {
 
 		local wrapper = {} :: { string }
 
-		if exports.config.escapeNewline then
+		if exports.config.escapeStringNewline then
 			target = string.gsub(target, "\n", function()
 				return "\\n"
 			end)

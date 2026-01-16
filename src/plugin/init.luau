@@ -13,6 +13,7 @@ local builders = require(script.Parent.builders)
 local app = require(script.components.app)
 
 local serializer = require(script.Parent.serializer)
+local datatype = require(script.Parent.utils.datatype)
 local logger = require(script.Parent.utils.logger)
 local properties = require(script.Parent.utils.properties)
 
@@ -59,6 +60,7 @@ local function serializeAction()
 
 	for k, v in next, config do
 		job.builder.configs[k] = v
+		datatype.config[k] = v
 
 		local propConfig = properties.config
 		local oldPropValue = propConfig[k]

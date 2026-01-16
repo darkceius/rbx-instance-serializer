@@ -8,6 +8,7 @@ local createLayoutOrder = require(script.Parent.Parent.helpers.createLayoutOrder
 local useSetting = require(script.Parent.Parent.hooks.useSetting)
 local holder = require(script.Parent.holder)
 local builder = require(script.Parent.settings.builder)
+local escapeStringNewline = require(script.Parent.settings.escapeStringNewline)
 local parentRoots = require(script.Parent.settings.parentRoots)
 local useExports = require(script.Parent.settings.useExports)
 local useNameProperty = require(script.Parent.settings.useNameProperty)
@@ -106,6 +107,13 @@ local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
 
 		useNameProperty = e(
 			useNameProperty,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
+
+		escapeStringNewline = e(
+			escapeStringNewline,
 			tableUtil.Reconcile({
 				LayoutOrder = layoutOrder(),
 			}, compShared)
