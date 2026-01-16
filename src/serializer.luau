@@ -24,19 +24,16 @@ end
 type self = typeof(serializer.new())
 
 function serializer.assignVar(self: self, name: string)
-	local index
-	local t = self.variables[name] or 0
-	if t then
-		index = t
-	end
+	local index = self.variables[name] or 0
+	local newName = name
 
 	if index ~= 0 then
-		name ..= tostring(index + 1)
+		newName ..= "_" .. tostring(index + 1)
 	end
 
-	self.variables[name] = t + 1
+	self.variables[name] = index + 1
 
-	return name
+	return newName
 end
 
 function serializer.add(self: self, instance: Instance, isChild: boolean?, parent: any?)
