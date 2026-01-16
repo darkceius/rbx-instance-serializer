@@ -83,6 +83,14 @@ local baseplate = e("Part", {
 
 </details>
 
+## Building
+
+You can build the plugin by using the following command
+
+```sh
+rojo build plugin.project.json --output plugin.rbxm
+```
+
 ## TODO
 
 - [x] add React builder

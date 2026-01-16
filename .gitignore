@@ -1,10 +1,6 @@
-# Project place file
-/decompiler.rbxlx
-
-# Roblox Studio lock files
 /*.rbxlx.lock
 /*.rbxl.lock
+*.rbxm*
 
 sourcemap.json
-
 Packages

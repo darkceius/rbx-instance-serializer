@@ -1,0 +1,14 @@
+{
+	"name": "rbx-instance-serializer",
+	"tree": {
+		"$className": "Folder",
+
+		"src": {
+			"$path": "src"
+		},
+
+		"packages": {
+			"$path": "Packages"
+		}
+	}
+}
