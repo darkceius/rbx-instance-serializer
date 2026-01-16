@@ -1,6 +1,6 @@
 # rbx-instance-serializer
 
-Transforms roblox instances 🙀
+A Roblox plugin that transforms roblox instances! 🙀
 
 ## Supported builders
 
