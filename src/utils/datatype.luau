@@ -358,17 +358,35 @@ exports.types = {
 			return "CFrame.identity"
 		end
 
-		local position = target.Position.Magnitude ~= 0 and `CFrame.new({convert(target.Position)})`
+		local position = target.Position.Magnitude > exports.config.snapPrecision
+			and `CFrame.new({convert(target.Position)})`
 		local orientation
 
 		local angles = { target:ToEulerAnglesXYZ() }
-		if angles[1] ~= 0 or angles[2] ~= 0 or angles[3] ~= 0 then
+		for k, v in next, angles do
+			angles[k] = math.deg(v)
+		end
+
+		if
+			math.abs(angles[1]) >= exports.config.snapPrecision
+			or math.abs(angles[2]) >= exports.config.snapPrecision
+			or math.abs(angles[3]) >= exports.config.snapPrecision
+		then
 			local args = {}
+
 			for i = 1, 3 do
-				table.insert(args, angles[i] ~= 0 and `math.rad({convert(math.deg(angles[i]))})` or `0`)
+				local angle = angles[i]
+				table.insert(
+					args,
+					(math.abs(angle) > exports.config.snapPrecision) and `math.rad({convert(angle)})` or `0`
+				)
 			end
 
 			orientation = `CFrame.fromEulerAnglesXYZ({table.concat(args, ", ")})`
+		end
+
+		if not position and not orientation then
+			return "CFrame.identity"
 		end
 
 		return `{position or ""}{(orientation and position) and " * " or ""}{orientation or ""}`

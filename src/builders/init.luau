@@ -1,22 +1,22 @@
-local vanilla = require(script.vanilla)
+local list = {}
+
+for _, v in next, script:GetChildren() do
+	if v:IsA("ModuleScript") then
+		local builder = (require)(v)
+		builder.module = builder
+		table.insert(list, builder)
+	end
+end
 
 return {
-	vanilla = vanilla,
-	list = {
+	vanilla = require(script.vanilla),
+	list = list :: {
 		{
-			id = "vanilla",
-			module = vanilla :: typeof(vanilla)?,
+			id: string,
+			name: string,
 
-			name = "Vanilla",
-			supportsWrapChildren = true,
-		},
-
-		{
-			id = "react",
-			module = nil,
-
-			name = "React",
-			supportsWrapChildren = false,
-		},
+			module: any,
+			supports: { [string]: boolean? },
+		}
 	},
 }

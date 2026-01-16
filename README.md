@@ -6,6 +6,7 @@ turns instances into code
 
 - [ ] add React builder
 - [ ] `datatype.luau` plugin settings
+- [ ] `properties.luau` plugin settings
 - [ ] `datatype.luau` tests
 - [ ] tests via testEZ
 

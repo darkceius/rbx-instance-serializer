@@ -2,6 +2,7 @@
 -- @darkceius
 
 local datatype = require(script.Parent.utils.datatype)
+local keywords = require(script.Parent.utils.keywords)
 local logger = require(script.Parent.utils.logger)
 local properties = require(script.Parent.utils.properties)
 
@@ -13,6 +14,11 @@ function serializer.new(builder: any?)
 	self.references = {}
 	self.roots = {}
 	self.variables = {}
+	self.clockStart = os.clock()
+
+	for k, _ in next, keywords.keywords do
+		self.variables[k] = 1
+	end
 
 	self.builder = (builder or require("./builders/vanilla")).new()
 	self.builder.roots = self.roots
@@ -44,9 +50,11 @@ function serializer.add(self: self, instance: Instance, isChild: boolean?, paren
 	data.instance = instance
 	data.parent = parent
 	data.children = {}
+	data.claimedNames = {}
 
 	data.className = instance.ClassName
 	data.varName = self:assignVar(datatype.toIdentifier(instance.Name))
+	data.rawName = instance.Name
 
 	data.isReferenced = false
 
@@ -128,7 +136,29 @@ end
 
 function serializer.serialize(self: self)
 	self.builder:init()
-	return self.builder:construct()
+
+	local elapsed = math.floor((os.clock() - self.clockStart) * 1000)
+
+	self.builder.info = table.concat({
+		"--[[",
+		datatype.tab(
+			table.concat({
+				"# Darkceius' instance serializer",
+				`* Builder: {self.builder.name} ({self.builder.id})`,
+				`* Took: {elapsed} ms`,
+				"",
+				"* Stats:",
+
+				datatype.toString(self.builder.stats),
+			}, "\n"),
+			1
+		),
+		"]]",
+	}, "\n")
+
+	local source = self.builder:construct()
+	source ..= "\n"
+	return source
 end
 
 return serializer

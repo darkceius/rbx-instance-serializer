@@ -14,6 +14,7 @@ local app = require(script.components.app)
 
 local serializer = require(script.Parent.serializer)
 local logger = require(script.Parent.utils.logger)
+local properties = require(script.Parent.utils.properties)
 
 local config = {
 	builder = "vanilla",
@@ -41,8 +42,6 @@ end
 
 local function serializeAction()
 	--| Serializing
-	logger.print("Serializing with following config", config)
-
 	local targetBuilder
 	for _, builder in next, builders.list do
 		if builder.id == config.builder and builder.module then
@@ -60,6 +59,13 @@ local function serializeAction()
 
 	for k, v in next, config do
 		job.builder.configs[k] = v
+
+		local propConfig = properties.config
+		local oldPropValue = propConfig[k]
+		properties.config[k] = v
+		if typeof(oldPropValue) ~= "nil" and oldPropValue ~= v then
+			table.clear(properties.cache)
+		end
 	end
 
 	for _, v in next, Selection:Get() do
@@ -101,7 +107,7 @@ return function(plugin: Plugin?)
 	--| Widget
 	local widget = plugin:CreateDockWidgetPluginGuiAsync(
 		"Instance Serializer",
-		DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, false, false, 300, 300, 300, 300)
+		DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, false, false, 500, 500, 500, 500)
 	)
 
 	widget.Title = "Instance Serializer"

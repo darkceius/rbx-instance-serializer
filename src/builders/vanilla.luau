@@ -1,11 +1,19 @@
 -- vanilla.luau
 -- @darkceius
 
--- * about:
--- uses roblox's Instance.new() function to create instances;
-
 local datatype = require(script.Parent.Parent.utils.datatype)
-local builder = {}
+local builder = {
+	id = "vanilla",
+	name = "Vanilla",
+	supports = {
+		wrapChildren = true,
+		useExports = true,
+		parentRoots = true,
+		useProperties = true,
+		useNameProperty = true,
+	},
+}
+
 builder.__index = builder
 
 function builder.new()
@@ -23,6 +31,7 @@ function builder.new()
 		wrapChildren = true,
 	}
 
+	self.info = nil :: string?
 	self.stats = {
 		instances = 0,
 		blocks = 0,
@@ -58,13 +67,13 @@ function builder.instance(
 		parent: any,
 	}
 )
+	self.stats.instances += 1
+
 	local data = meta.data
 	local variableName = data.varName
 
 	--| Setup
 	local lines = {}
-
-	self.stats.instances += 1
 
 	table.sort(data.properties, function(a, b)
 		return a.valueType > b.valueType
@@ -72,16 +81,18 @@ function builder.instance(
 
 	--| Instancing
 	local isReferenced = data.isReferenced and not meta.isRoot
-	if isReferenced then
-		self.stats.main_locals += 1
-		table.insert(self.headers, variableName)
-	end
-
 	local instancer
-	if data.instancer.method == "default" then
-		instancer = `Instance.new({datatype.toString(data.className)})`
-	elseif data.instancer.method == "set" then
-		instancer = data.instancer.value
+	do
+		if isReferenced then
+			self.stats.main_locals += 1
+			table.insert(self.headers, variableName)
+		end
+
+		if data.instancer.method == "default" then
+			instancer = `Instance.new({datatype.toString(data.className)})`
+		elseif data.instancer.method == "set" then
+			instancer = data.instancer.value
+		end
 	end
 
 	table.insert(lines, `{not isReferenced and "local " or ""}{variableName} = {instancer}`)
@@ -144,19 +155,9 @@ end
 function builder.construct(self: self)
 	local lines = {}
 
-	table.insert(
-		lines,
-		table.concat({
-			"--[[",
-			"darkceius' instance serializer",
-			"used roblox instance builder (vanilla)",
-			"",
-			"stats:",
-
-			datatype.toString(self.stats),
-			"]]",
-		}, "\n")
-	)
+	if self.info then
+		table.insert(lines, self.info)
+	end
 
 	if #self.headers > 0 then
 		table.insert(lines, `local {table.concat(self.headers, ", ")}`)

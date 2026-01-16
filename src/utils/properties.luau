@@ -10,6 +10,9 @@ exports.excludedPropertiesFor = {
 		Rotation = true,
 		Position = true,
 		Orientation = true,
+
+		WorldPosition = true,
+		WorldOrientation = true,
 	},
 
 	Parent = { Parent = true },
@@ -31,6 +34,11 @@ exports.excludedPropertiesFor = {
 		TextureContent = true,
 		ColorMap = true,
 	},
+}
+
+exports.config = {
+	useWorldProperties = true,
+	useNameProperty = true,
 }
 
 exports["nil"] = newproxy()
@@ -96,7 +104,27 @@ function exports.getProperties(className: string)
 		table.insert(targetProperties, prop.Name)
 	end
 
-	for prop, ignored in next, exports.excludedPropertiesFor do
+	local totalExclusions = table.clone(exports.excludedPropertiesFor)
+
+	if not exports.config.useWorldProperties then
+		for _, target in next, { "CFrame", "Position", "SecondaryAxis", "Axis", "Orientation" } do
+			local tb = totalExclusions[target]
+			if not tb then
+				tb = {}
+				totalExclusions[target] = tb
+			end
+
+			tb["World" .. target] = true
+		end
+
+		totalExclusions.WorldPivot = { WorldPivot = true }
+	end
+
+	if not exports.config.useNameProperty then
+		totalExclusions.Name = { Name = true }
+	end
+
+	for prop, ignored in next, totalExclusions do
 		if table.find(targetProperties, prop) then
 			for i = #targetProperties, 1, -1 do
 				local v = targetProperties[i]

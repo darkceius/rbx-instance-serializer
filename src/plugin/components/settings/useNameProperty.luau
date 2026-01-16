@@ -5,24 +5,26 @@ local useSupported = require(script.Parent.Parent.Parent.hooks.useSupported)
 local typedefs = require(script.Parent.Parent.typedefs)
 local e = react.createElement
 
-local settingName = "useExports"
-
 return function(props: typedefs.props)
 	local value, setValue = useSetting({
 		plugin = props.plugin,
 		config = props.config,
 
-		name = settingName,
+		name = "useNameProperty",
 		default = true,
 	})
 
-	if not useSupported(props, "selectedBuilder", settingName) then
+	if not useSupported(props, "selectedBuilder", "useNameProperty") then
 		return
+	end
+
+	if props.setPropsUsed then
+		props.setPropsUsed(true)
 	end
 
 	return e(comps.Checkbox, {
 		LayoutOrder = props.LayoutOrder,
-		Label = "Add exports",
+		Label = "Include `Name` property",
 
 		Value = value,
 		OnChanged = function()

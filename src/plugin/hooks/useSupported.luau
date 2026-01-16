@@ -6,8 +6,8 @@ return function(props: any, valueName: string, property: any)
 
 	react.useEffect(function()
 		for k, v in next, builders.list do
-			if v.id == props[valueName] then
-				setSupported(v[property])
+			if v.id == props[valueName] and v.supports then
+				setSupported(v.supports[property] == true)
 				break
 			end
 		end
