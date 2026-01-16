@@ -5,10 +5,8 @@ turns instances into code
 ## todo
 
 - [ ] add React builder
-- [ ] `datatype.luau` plugin settings
-- [ ] `properties.luau` plugin settings
-- [ ] `datatype.luau` tests
-- [ ] tests via testEZ
+- [x] `datatype.luau` plugin settings
+- [x] `properties.luau` plugin settings
 
 ## license
 
