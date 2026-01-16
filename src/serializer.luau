@@ -109,6 +109,7 @@ function serializer.add(self: self, instance: Instance, isChild: boolean?, paren
 				end
 			end
 
+			propertyData.rawValue = value -- for Rojo JSON serialization (future builder!)
 			propertyData.valueType = typeof(value)
 			propertyData.name = propertyName
 			propertyData.serialized = shouldSerialize and datatype.toString(value) or value
