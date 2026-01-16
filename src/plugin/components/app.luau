@@ -11,6 +11,7 @@ local builder = require(script.Parent.settings.builder)
 local escapeStringNewline = require(script.Parent.settings.escapeStringNewline)
 local parentRoots = require(script.Parent.settings.parentRoots)
 local roundNumbers = require(script.Parent.settings.roundNumbers)
+local useAutoLayoutOrder = require(script.Parent.settings.useAutoLayoutOrder)
 local useExports = require(script.Parent.settings.useExports)
 local useNameProperty = require(script.Parent.settings.useNameProperty)
 local useWorldProperties = require(script.Parent.settings.useWorldProperties)
@@ -98,6 +99,13 @@ local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
 			TextXAlignment = Enum.TextXAlignment.Left,
 			Size = UDim2.new(1, 0, 0, 14),
 		}),
+
+		useAutoLayoutOrder = e(
+			useAutoLayoutOrder,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
 
 		useWorldProperties = e(
 			useWorldProperties,

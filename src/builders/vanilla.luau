@@ -80,7 +80,7 @@ function builder.instance(
 	end)
 
 	--| Instancing
-	local isReferenced = data.isReferenced and not meta.isRoot
+	local isReferenced = (data.isReferenced or data.targetReferenced) and not meta.isRoot
 	local instancer
 	do
 		if isReferenced then

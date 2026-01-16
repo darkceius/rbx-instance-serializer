@@ -57,8 +57,6 @@ function builder.instance(
 		parent: any,
 	}
 ): string?
-	self.stats.instances += 1
-
 	local data = meta.data
 	local isRoot = meta.isRoot
 	local addToExport = isRoot and self.configs.useExports
@@ -84,6 +82,8 @@ function builder.instance(
 		end
 		self.rootDefined[data.rawName] = true
 	end
+
+	self.stats.instances += 1
 
 	if not isDefinedAsChild then
 		table.insert(lines, `export type {identifier} = {data.className}{suffix}`)
