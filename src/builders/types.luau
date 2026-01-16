@@ -71,7 +71,7 @@ function builder.instance(
 	local suffix = `{hasChildren and " & {" or ""}`
 
 	local identifier = datatype.identifier(data.rawName)
-	if (identifier ~= data.rawName or data.rawName == "exports") and meta.isRoot then
+	if (identifier ~= data.rawName or data.rawName == "exports" or data.rawName == data.className) and meta.isRoot then
 		addToExport = true
 		-- forced because `export type ["identifier"] = ...` isn't supported
 	end
