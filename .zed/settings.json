@@ -1,0 +1,31 @@
+{
+	"lsp": {
+		"luau-lsp": {
+			"settings": {
+				"roblox": {
+					"enabled": true,
+					"securityLevel": "plugin",
+				},
+
+				"plugin": {
+					"enabled": true,
+				},
+
+				"luau-lsp": {
+					"sourcemap": {
+						"enabled": true,
+					},
+
+					"completion": {
+						"imports": {
+							"requireStyle": "AlwaysRelative",
+							"stringRequires": {
+								"enabled": true,
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+}
