@@ -95,6 +95,8 @@ rojo build plugin.project.json --output plugin.rbxm
 
 ## TODO
 
+- [ ] add Tag serialization
+- [ ] add Attributes serialization
 - [x] add React builder
 - [x] `datatype.luau` plugin settings
 - [x] `properties.luau` plugin settings
@@ -102,7 +104,3 @@ rojo build plugin.project.json --output plugin.rbxm
 ## License
 
 [view here](./LICENSE)
-
-```
-
-```
