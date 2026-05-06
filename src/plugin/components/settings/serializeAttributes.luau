@@ -24,7 +24,7 @@ return function(props: typedefs.props)
 
 	return e(comps.Checkbox, {
 		LayoutOrder = props.LayoutOrder,
-		Label = "Include Attributes",
+		Label = "Include attributes",
 
 		Value = value,
 		OnChanged = function()
