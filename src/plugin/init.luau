@@ -6,15 +6,15 @@ local ScriptEditorService = game:GetService("ScriptEditorService")
 local Selection = game:GetService("Selection")
 local ServerStorage = game:GetService("ServerStorage")
 
-local charm = require(script.Parent.Parent.packages.charm)
-local react = require(script.Parent.Parent.packages.react)
-local reactRoblox = require(script.Parent.Parent.packages.reactRoblox)
-local builders = require(script.Parent.builders)
-local app = require(script.components.app)
-local serializer = require(script.Parent.serializer)
-local datatype = require(script.Parent.utils.datatype)
-local logger = require(script.Parent.utils.logger)
-local properties = require(script.Parent.utils.properties)
+local app = require("./plugin/components/app")
+local builders = require("./builders")
+local charm = require("../packages/charm")
+local datatype = require("./utils/datatype")
+local logger = require("./utils/logger")
+local properties = require("./utils/properties")
+local react = require("../packages/react")
+local reactRoblox = require("../packages/reactRoblox")
+local serializer = require("./serializer")
 
 local config = {
 	builder = "vanilla",
@@ -93,7 +93,7 @@ local function serializeAction()
 	end
 end
 
-return function(plugin: Plugin?)
+return function(plugin: any)
 	if not plugin then
 		return
 	end
