@@ -9,7 +9,7 @@ for _, v in next, script:GetChildren() do
 end
 
 return {
-	vanilla = require(script.vanilla),
+	vanilla = require("@self/vanilla"),
 	list = list :: {
 		{
 			id: string,

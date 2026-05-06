@@ -1,21 +1,21 @@
 -- app.luau
 -- @darkceius
 
-local comps = require(script.Parent.Parent.Parent.Parent.packages.comps)
-local react = require(script.Parent.Parent.Parent.Parent.packages.react)
-local tableUtil = require(script.Parent.Parent.Parent.Parent.packages.tableUtil)
-local createLayoutOrder = require(script.Parent.Parent.helpers.createLayoutOrder)
-local useSetting = require(script.Parent.Parent.hooks.useSetting)
-local holder = require(script.Parent.holder)
-local builder = require(script.Parent.settings.builder)
-local escapeStringNewline = require(script.Parent.settings.escapeStringNewline)
-local parentRoots = require(script.Parent.settings.parentRoots)
-local roundNumbers = require(script.Parent.settings.roundNumbers)
-local useAutoLayoutOrder = require(script.Parent.settings.useAutoLayoutOrder)
-local useExports = require(script.Parent.settings.useExports)
-local useNameProperty = require(script.Parent.settings.useNameProperty)
-local useWorldProperties = require(script.Parent.settings.useWorldProperties)
-local wrapChildren = require(script.Parent.settings.wrapChildren)
+local builder = require("./settings/builder")
+local comps = require("../../../packages/comps")
+local createLayoutOrder = require("../helpers/createLayoutOrder")
+local escapeStringNewline = require("./settings/escapeStringNewline")
+local holder = require("./holder")
+local parentRoots = require("./settings/parentRoots")
+local react = require("../../../packages/react")
+local roundNumbers = require("./settings/roundNumbers")
+local tableUtil = require("../../../packages/tableUtil")
+local useAutoLayoutOrder = require("./settings/useAutoLayoutOrder")
+local useExports = require("./settings/useExports")
+local useNameProperty = require("./settings/useNameProperty")
+local useSetting = require("../hooks/useSetting")
+local useWorldProperties = require("./settings/useWorldProperties")
+local wrapChildren = require("./settings/wrapChildren")
 local e = react.createElement
 
 local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
@@ -141,7 +141,7 @@ local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
 			class = "ScrollingFrame",
 			props = {
 				AutomaticCanvasSize = Enum.AutomaticSize.Y,
-				CanvasSize = UDim2.new(0, 0),
+				CanvasSize = UDim2.fromOffset(0, 0),
 				Size = UDim2.fromScale(1, 1),
 				AutomaticSize = Enum.AutomaticSize.None,
 				ScrollBarImageTransparency = 1,

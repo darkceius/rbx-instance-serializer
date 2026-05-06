@@ -1,8 +1,8 @@
 -- react.luau
 -- @darkceius
 
-local assignVar = require(script.Parent.Parent.utils.assignVar)
-local datatype = require(script.Parent.Parent.utils.datatype)
+local assignVar = require("../utils/assignVar")
+local datatype = require("../utils/datatype")
 local builder = {
 	id = "react",
 	name = "React",

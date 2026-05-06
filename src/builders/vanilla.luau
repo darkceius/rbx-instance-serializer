@@ -1,7 +1,7 @@
 -- vanilla.luau
 -- @darkceius
 
-local datatype = require(script.Parent.Parent.utils.datatype)
+local datatype = require("../utils/datatype")
 local builder = {
 	id = "vanilla",
 	name = "Vanilla",
@@ -27,8 +27,7 @@ function builder.new()
 		useExports = true,
 		parentRoots = false,
 
-		-- recommended to avoid local variable register limit
-		wrapChildren = true,
+		wrapChildren = true, -- recommended to avoid local variable register limit
 	}
 
 	self.info = nil :: string?

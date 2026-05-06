@@ -1,4 +1,4 @@
-local react = require(script.Parent.Parent.Parent.Parent.packages.react)
+local react = require("../../../packages/react")
 
 local function useSetting<T>(data: {
 	plugin: Plugin,

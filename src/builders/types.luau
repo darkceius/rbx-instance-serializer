@@ -1,7 +1,7 @@
 -- types.luau
 -- @darkceius
 
-local datatype = require(script.Parent.Parent.utils.datatype)
+local datatype = require("../utils/datatype")
 local builder = {
 	id = "types",
 	name = "Types",

@@ -1,5 +1,5 @@
-local react = require(script.Parent.Parent.Parent.Parent.packages.react)
-local builders = require(script.Parent.Parent.Parent.builders)
+local builders = require("../../builders")
+local react = require("../../../packages/react")
 
 local function useBuilders()
 	local buildItems, setBuildItems = react.useState({} :: any)

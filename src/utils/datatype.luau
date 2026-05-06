@@ -4,8 +4,8 @@
 --#selene: allow(manual_table_clone)
 
 local EncodingService = game:GetService("EncodingService")
-local capabilities = require(script.Parent.capabilities)
-local keywords = require(script.Parent.keywords)
+local capabilities = require("./capabilities")
+local keywords = require("./keywords")
 
 local exports = {}
 exports.config = {

@@ -1,11 +1,11 @@
 -- serializer.luau
 -- @darkceius
 
-local assignVar = require(script.Parent.utils.assignVar)
-local datatype = require(script.Parent.utils.datatype)
-local keywords = require(script.Parent.utils.keywords)
-local logger = require(script.Parent.utils.logger)
-local properties = require(script.Parent.utils.properties)
+local assignVar = require("./utils/assignVar")
+local datatype = require("./utils/datatype")
+local keywords = require("./utils/keywords")
+local logger = require("./utils/logger")
+local properties = require("./utils/properties")
 
 local serializer = {}
 serializer.__index = serializer

@@ -1,8 +1,8 @@
-local comps = require(script.Parent.Parent.Parent.Parent.Parent.packages.comps)
-local react = require(script.Parent.Parent.Parent.Parent.Parent.packages.react)
-local useSetting = require(script.Parent.Parent.Parent.hooks.useSetting)
-local useSupported = require(script.Parent.Parent.Parent.hooks.useSupported)
-local typedefs = require(script.Parent.Parent.typedefs)
+local comps = require("../../../../packages/comps")
+local react = require("../../../../packages/react")
+local typedefs = require("../typedefs")
+local useSetting = require("../../hooks/useSetting")
+local useSupported = require("../../hooks/useSupported")
 local e = react.createElement
 
 return function(props: typedefs.props)

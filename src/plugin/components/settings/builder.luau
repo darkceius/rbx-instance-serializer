@@ -1,9 +1,9 @@
-local comps = require(script.Parent.Parent.Parent.Parent.Parent.packages.comps)
-local react = require(script.Parent.Parent.Parent.Parent.Parent.packages.react)
-local holder = require(script.Parent.Parent.Parent.components.holder)
-local createLayoutOrder = require(script.Parent.Parent.Parent.helpers.createLayoutOrder)
-local useBuilders = require(script.Parent.Parent.Parent.hooks.useBuilders)
-local typedefs = require(script.Parent.Parent.typedefs)
+local comps = require("../../../../packages/comps")
+local createLayoutOrder = require("../../helpers/createLayoutOrder")
+local holder = require("../holder")
+local react = require("../../../../packages/react")
+local typedefs = require("../typedefs")
+local useBuilders = require("../../hooks/useBuilders")
 local e = react.createElement
 
 return function(props: typedefs.props)
