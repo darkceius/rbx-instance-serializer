@@ -1,8 +1,9 @@
 -- app.luau
 -- @darkceius
 
+local autoSelect = require("./settings/autoSelect")
 local wrapChildren = require("./settings/wrapChildren")
-local builder = require("./settings/builder")
+local autoOpen = require("./settings/autoOpen")
 local comps = require("../../../packages/comps")
 local createLayoutOrder = require("../helpers/createLayoutOrder")
 local escapeStringNewline = require("./settings/escapeStringNewline")
@@ -18,6 +19,7 @@ local useExports = require("./settings/useExports")
 local useNameProperty = require("./settings/useNameProperty")
 local useSetting = require("../hooks/useSetting")
 local useWorldProperties = require("./settings/useWorldProperties")
+local builder = require("./settings/builder")
 local e = react.createElement
 
 local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
@@ -88,6 +90,20 @@ local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
 
 		wrapChildren = e(
 			wrapChildren,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
+
+		autoSelect = e(
+			autoSelect,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
+
+		autoOpen = e(
+			autoOpen,
 			tableUtil.Reconcile({
 				LayoutOrder = layoutOrder(),
 			}, compShared)

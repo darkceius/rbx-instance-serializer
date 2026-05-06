@@ -22,6 +22,9 @@ local config = {
 	wrapChildren = true,
 	useExports = true,
 	parentRoots = false,
+
+	autoSelect = true,
+	autoOpen = true,
 }
 
 local function showSerialized(source: string, useExports: boolean)
@@ -33,9 +36,19 @@ local function showSerialized(source: string, useExports: boolean)
 		return source
 	end)
 
-	Selection:Set({ holderScript })
+	local autoSelect = config.autoSelect
+	if autoSelect then
+		Selection:Set({ holderScript })
+	end
 
-	ScriptEditorService:OpenScriptDocumentAsync(holderScript :: any)
+	local autoOpen = config.autoOpen
+	if autoOpen then
+		ScriptEditorService:OpenScriptDocumentAsync(holderScript :: any)
+	end
+
+	if not autoSelect and not autoOpen then
+		logger.print("Created serializer output here >", holderScript)
+	end
 
 	return holderScript
 end
