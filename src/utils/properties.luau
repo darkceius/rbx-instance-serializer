@@ -21,6 +21,7 @@ exports.excludedPropertiesFor = {
 
 	Color = { BrickColor = true },
 	BackgroundColor3 = { BackgroundColor = true },
+	BorderColor3 = { BorderColor = true },
 	TextColor3 = { TextColor = true },
 	BackgroundTransparency = { Transparency = true },
 	TextTransparency = { Transparency = true },
