@@ -1,7 +1,7 @@
 local react = require("../../../packages/react")
 
 local function useSetting<T>(data: {
-	plugin: Plugin,
+	plugin: any,
 	config: () -> any,
 	name: string,
 	default: T,
