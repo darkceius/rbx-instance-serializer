@@ -1,5 +1,7 @@
 -- capabilities.luau
 -- @darkceius
+--#selene: allow(undefined_variable)
+-- ^ SecurityCapabilities hasn't been added to selene's globals yet
 
 local exports = {}
 
@@ -45,6 +47,10 @@ end
 
 function exports.check(target: SecurityCapabilities, current: SecurityCapabilities)
 	return current:Contains(unpack(exports.list(target)))
+end
+
+function exports.create()
+	return SecurityCapabilities.new(unpack(exports.baseScript))
 end
 
 return exports

@@ -75,7 +75,7 @@ function exports.getProperties(className: string)
 	properties.reason = nil :: string?
 
 	--| Current security props
-	local securityContext = SecurityCapabilities.new(unpack(capabilities.baseScript))
+	local securityContext = capabilities.create()
 	local targetProperties = {}
 
 	for _, prop in next, ReflectionService:GetPropertiesOfClass(className, { Security = securityContext }) do
