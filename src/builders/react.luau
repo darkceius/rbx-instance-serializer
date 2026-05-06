@@ -124,15 +124,15 @@ function builder.instance(
 	if #data.properties > 0 then
 		table.insert(propertiesLines, "{")
 
-		for
-			_,
-			property: {
+		for _, property: {
 			serialized: string | any,
 			name: string,
 			isReference: boolean,
 			raw: string,
-		}
-		in next, data.properties do
+		} in
+			next,
+			data.properties
+		do
 			if property.raw then
 				table.insert(propertiesLines, datatype.tab(property.raw, 1))
 				continue
@@ -206,7 +206,7 @@ function builder.construct(self: self)
 
 	if #self.references > 0 then
 		local refs = {}
-		for _, v in next, self.references do
+		for _, _ in next, self.references do
 			table.insert(refs, "react.useRef(nil)")
 		end
 

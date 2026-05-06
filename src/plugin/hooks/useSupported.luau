@@ -5,7 +5,7 @@ return function(props: any, valueName: string, property: any)
 	local supported, setSupported = react.useState(false)
 
 	react.useEffect(function()
-		for k, v in next, builders.list do
+		for _, v in next, builders.list do
 			if v.id == props[valueName] and v.supports then
 				setSupported(v.supports[property] == true)
 				break

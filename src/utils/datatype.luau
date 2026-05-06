@@ -1,6 +1,7 @@
 -- datatype.luau
 -- @darkceius
 --!optimize 2
+--#selene: allow(manual_table_clone)
 
 local EncodingService = game:GetService("EncodingService")
 local capabilities = require(script.Parent.capabilities)
@@ -79,7 +80,7 @@ end
 function exports.isArray(array: { [any]: any })
 	local len = #array
 
-	for k, v in next, array do
+	for k, _ in next, array do
 		if typeof(k) ~= "number" then
 			return false
 		end
@@ -199,7 +200,7 @@ exports.types = {
 
 		if exports.isArray(target) then
 			local t = {}
-			for k, v in next, target do
+			for _, v in next, target do
 				table.insert(t, convert(v, meta))
 			end
 			return `\{{table.concat(t, ", ")}\}`
@@ -412,7 +413,7 @@ exports.types = {
 		end
 
 		local args = {}
-		for k, v in next, keypoints do
+		for _, v in next, keypoints do
 			table.insert(args, v)
 		end
 
@@ -610,7 +611,7 @@ exports.types = {
 		end
 
 		local args = {}
-		for k, v in next, keypoints do
+		for _, v in next, keypoints do
 			table.insert(args, v)
 		end
 
@@ -867,6 +868,7 @@ exports.types = {
 	end,
 
 	SharedTable = function(target: SharedTable, convert)
+		-- you cannot table.clone() a SharedTable
 		local tb = {}
 		for k, v in target do
 			tb[k] = v

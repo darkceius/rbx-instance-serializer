@@ -102,10 +102,7 @@ function builder.instance(
 		serialized: string | any,
 		name: string,
 		isReference: boolean,
-	} in
-		next,
-		data.properties
-	do
+	} in next, data.properties do
 		local value = `{variableName}{datatype.index(property.name)} = {property.serialized}`
 
 		if property.isReference then
