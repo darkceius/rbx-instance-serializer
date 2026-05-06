@@ -5,18 +5,16 @@ local useSetting = require("../../hooks/useSetting")
 local useSupported = require("../../hooks/useSupported")
 local e = react.createElement
 
-local settingName = "useExports"
-
 return function(props: typedefs.props)
 	local value, setValue = useSetting({
 		plugin = props.plugin,
 		config = props.config,
 
-		name = settingName,
+		name = "useExports",
 		default = true,
 	})
 
-	if not useSupported(props, "selectedBuilder", settingName) then
+	if not useSupported(props, "selectedBuilder", "useExports") then
 		return
 	end
 

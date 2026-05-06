@@ -10,17 +10,21 @@ return function(props: typedefs.props)
 		plugin = props.plugin,
 		config = props.config,
 
-		name = "wrapChildren",
+		name = "serializeTags",
 		default = true,
 	})
 
-	if not useSupported(props, "selectedBuilder", "wrapChildren") then
+	if not useSupported(props, "selectedBuilder", "serializeTags") then
 		return
+	end
+
+	if props.setPropsUsed then
+		props.setPropsUsed(true)
 	end
 
 	return e(comps.Checkbox, {
 		LayoutOrder = props.LayoutOrder,
-		Label = "Wrap children in blocks",
+		Label = "Include Tags",
 
 		Value = value,
 		OnChanged = function()

@@ -53,7 +53,25 @@ function serializer.add(self: self, instance: Instance, isChild: boolean?, paren
 	data._rawParent = typeof(parent) == "Instance" and parent or nil
 	data._modifiedProperties = properties.getChangedProperties(instance)
 	data.properties = {}
+	data.attributes = {} :: { { key: string, value: any } }
 
+	-- tags
+	data.tags = instance:GetTags()
+	table.sort(data.tags)
+
+	-- attributes
+	for k, v in next, instance:GetAttributes() do
+		table.insert(data.attributes, {
+			key = k,
+			value = v,
+		})
+	end
+
+	table.sort(data.attributes, function(a, b)
+		return a.key < b.key
+	end)
+
+	-- instancer
 	data.instancer = {
 		method = "default",
 		value = nil :: string?,

@@ -1,6 +1,7 @@
 -- app.luau
 -- @darkceius
 
+local wrapChildren = require("./settings/wrapChildren")
 local builder = require("./settings/builder")
 local comps = require("../../../packages/comps")
 local createLayoutOrder = require("../helpers/createLayoutOrder")
@@ -9,13 +10,14 @@ local holder = require("./holder")
 local parentRoots = require("./settings/parentRoots")
 local react = require("../../../packages/react")
 local roundNumbers = require("./settings/roundNumbers")
+local serializeAttributes = require("./settings/serializeAttributes")
+local serializeTags = require("./settings/serializeTags")
 local tableUtil = require("../../../packages/tableUtil")
 local useAutoLayoutOrder = require("./settings/useAutoLayoutOrder")
 local useExports = require("./settings/useExports")
 local useNameProperty = require("./settings/useNameProperty")
 local useSetting = require("../hooks/useSetting")
 local useWorldProperties = require("./settings/useWorldProperties")
-local wrapChildren = require("./settings/wrapChildren")
 local e = react.createElement
 
 local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
@@ -99,6 +101,20 @@ local function uiRoot(props: { plugin: Plugin, config: any, serialize: any })
 			TextXAlignment = Enum.TextXAlignment.Left,
 			Size = UDim2.new(1, 0, 0, 14),
 		}),
+
+		serializeTags = e(
+			serializeTags,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
+
+		serializeAttributes = e(
+			serializeAttributes,
+			tableUtil.Reconcile({
+				LayoutOrder = layoutOrder(),
+			}, compShared)
+		),
 
 		useAutoLayoutOrder = e(
 			useAutoLayoutOrder,

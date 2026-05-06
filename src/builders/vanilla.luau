@@ -11,6 +11,8 @@ local builder = {
 		parentRoots = true,
 		useProperties = true,
 		useNameProperty = true,
+		serializeTags = true,
+		serializeAttributes = true,
 	},
 }
 
@@ -28,6 +30,9 @@ function builder.new()
 		parentRoots = false,
 
 		wrapChildren = true, -- recommended to avoid local variable register limit
+
+		serializeTags = true,
+		serializeAttributes = true,
 	}
 
 	self.info = nil :: string?
@@ -95,6 +100,22 @@ function builder.instance(
 	end
 
 	table.insert(lines, `{not isReferenced and "local " or ""}{variableName} = {instancer}`)
+
+	--| Tags
+	if self.configs.serializeTags then
+		for _, tag in next, data.tags do
+			table.insert(lines, `{variableName}:AddTag({datatype.toString(tag)})`)
+		end
+	end
+	--| Attributes
+	if self.configs.serializeAttributes then
+		for _, attribute: { key: string, value: any } in next, data.attributes do
+			table.insert(
+				lines,
+				`{variableName}:SetAttribute({datatype.toString(attribute.key)}, {datatype.toString(attribute.value)})`
+			)
+		end
+	end
 
 	--| Properties
 	for _, property: {

@@ -5,18 +5,16 @@ local useSetting = require("../../hooks/useSetting")
 local useSupported = require("../../hooks/useSupported")
 local e = react.createElement
 
-local settingName = "parentRoots"
-
 return function(props: typedefs.props)
 	local value, setValue = useSetting({
 		plugin = props.plugin,
 		config = props.config,
 
-		name = settingName,
+		name = "parentRoots",
 		default = false,
 	})
 
-	if not useSupported(props, "selectedBuilder", settingName) then
+	if not useSupported(props, "selectedBuilder", "parentRoots") then
 		return
 	end
 
