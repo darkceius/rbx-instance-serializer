@@ -78,7 +78,13 @@ function exports.getProperties(className: string)
 	local securityContext = capabilities.create()
 	local targetProperties = {}
 
-	for _, prop in next, ReflectionService:GetPropertiesOfClass(className, { Security = securityContext }) do
+	local reflectionData = ReflectionService:GetPropertiesOfClass(className, { Security = securityContext })
+	if not reflectionData then
+		warn("Failed to get properties for", className)
+		reflectionData = {}
+	end
+
+	for _, prop in next, reflectionData do
 		local permits = prop.Permits
 		if not permits then
 			continue
