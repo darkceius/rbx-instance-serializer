@@ -69,6 +69,7 @@ function builder.instance(
 		isRoot: boolean,
 		data: any,
 		parent: any,
+		varCount: number?,
 	}
 )
 	self.stats.instances += 1
@@ -134,18 +135,59 @@ function builder.instance(
 	end
 
 	--| Children
+	local REGISTER_MAX_LIMIT = 100
+	local localVarCount = meta.varCount or 0
+	if not isReferenced then
+		localVarCount += 1
+	end
+
 	if #data.children > 0 then
 		local wrapChildren = self.configs.wrapChildren
+		local localRegistorPrevention = #data.children >= REGISTER_MAX_LIMIT
+
+		local appliedExtraWrap = false
 
 		if wrapChildren then
 			table.insert(lines, "do")
 			self.stats.blocks += 1
 		end
 
-		for _, child in next, data.children do
-			local childSource = self:instance({ isRoot = false, data = child, parent = data })
+		for idx, child in next, data.children do
+			localVarCount += 1
 
-			table.insert(lines, datatype.tab(childSource, wrapChildren and 1 or 0))
+			local tabLength = (wrapChildren and 1 or 0) + (appliedExtraWrap and 1 or 0)
+			local varMod = localVarCount % REGISTER_MAX_LIMIT
+
+			--| this local register fix is kinda lazyyyyy and has a 30% chance of failing on big instances
+
+			--| Applying a do to prevent local register err prevention
+			if idx == 1 and localRegistorPrevention and not appliedExtraWrap then
+				appliedExtraWrap = true
+				table.insert(lines, datatype.tab("do", tabLength))
+				tabLength += 1
+			end
+
+			--| Parsing
+			local childSource = self:instance({
+				isRoot = false,
+				data = child,
+				parent = data,
+				varCount = localVarCount,
+			})
+
+			--| Local register error prevention
+			if localRegistorPrevention and varMod == 0 then
+				appliedExtraWrap = true
+
+				table.insert(lines, datatype.tab("end", tabLength - 1))
+				table.insert(lines, datatype.tab("do", tabLength - 1))
+			end
+
+			table.insert(lines, datatype.tab(childSource, tabLength))
+		end
+
+		if appliedExtraWrap then
+			table.insert(lines, datatype.tab("end", wrapChildren and 1 or 0))
 		end
 
 		if wrapChildren then
