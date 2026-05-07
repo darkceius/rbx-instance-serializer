@@ -124,7 +124,8 @@ return function(plugin: any)
 		DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, false, false, 500, 500, 500, 500)
 	)
 
-	widget.Title = "Instance Serializer"
+	widget.Title = "Instance Serializer v" .. serializer.version
+	
 	widget.Name = widget.Title
 
 	toolbar

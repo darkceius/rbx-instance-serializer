@@ -9,6 +9,7 @@ local properties = require("./utils/properties")
 
 local serializer = {}
 serializer.__index = serializer
+serializer.version = "1.1.0"
 
 function serializer.new(builder: any?)
 	local self = {}
